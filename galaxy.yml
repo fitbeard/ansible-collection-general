@@ -1,14 +1,23 @@
 namespace: fitbeard
-name: core
-version: 0.1.0 # x-release-please-version
+name: general
+version: 0.1.0 # injected dynamically when publishing
 readme: README.md
 authors:
   - Tadas Sutkaitis <tadasas@gmail.com>
-description: Add description
+description: Set of Ansible roles. playbooks and modules for general purpose usage.
 license:
   - GPL-3.0-or-later
 dependencies: {}
-repository: https://github.com/fitbeard/core
+repository: https://github.com/fitbeard/ansible-collection-general
+homepage: https://github.com/fitbeard/ansible-collection-general
 build_ignore:
   - .github
+  - .vscode
+  - ansible-cache
   - molecule
+  - .ansible-lint
+  - .gitignore
+  - .markdownlint.yml
+  - .pre-commit-config.yaml
+  - .python-version
+  - CHANGELOG.md
