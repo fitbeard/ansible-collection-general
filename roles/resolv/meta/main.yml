@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  role_name: resolv
+  author: Tadas Sutkaitis <tadasas@gmail.com>
+  description: Configures resolv.conf and hosts
+  license: BSD
+  min_ansible_version: "7.1"
+  platforms:
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+dependencies: []
