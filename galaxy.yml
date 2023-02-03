@@ -1,0 +1,14 @@
+namespace: fitbeard
+name: core
+version: 0.1.0 # x-release-please-version
+readme: README.md
+authors:
+  - Tadas Sutkaitis <tadasas@gmail.com>
+description: Add description
+license:
+  - GPL-3.0-or-later
+dependencies: {}
+repository: https://github.com/fitbeard/core
+build_ignore:
+  - .github
+  - molecule

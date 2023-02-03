@@ -1,0 +1,41 @@
+---
+- name: Sleep and reboot
+  shell: |
+    sleep 5 && reboot
+  async: 1
+  poll: 0
+  tags:
+    - skip_ansible_lint
+
+- name: Update ansible_host fact
+  set_fact:
+    ansible_host: "{{ systemd_networkd_primary_ip }}"
+
+- name: Sleep for 15 seconds and continue with a play
+  wait_for:
+    timeout: 15
+  delegate_to: localhost
+  become: false
+
+- name: Wait for reboot to complete
+  wait_for_connection:
+    connect_timeout: 20
+    timeout: 1200
+    sleep: 5
+    delay: 5
+
+- name: Show primary IP changes | Old facts
+  debug:
+    msg:
+      - "Old IPv4: {{ ansible_default_ipv4.address | default('N/A') }}"
+      - "Old IPv6: {{ ansible_default_ipv6.address | default('N/A') }}"
+      - "New IP: {{ ansible_host }}"
+
+- name: Gather facts after reboot
+  setup:
+
+- name: Show primary IP changes | New facts
+  debug:
+    msg:
+      - "New IPv4: {{ ansible_default_ipv4.address | default('N/A') }}"
+      - "New IPv6: {{ ansible_default_ipv6.address | default('N/A') }}"

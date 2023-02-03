@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  role_name: systemd_networkd
+  author: "Anthony Ruhier & StackHPC Ltd & Tadas Sutkaitis"
+  description: Configures systemd-networkd
+  license: BSD
+  min_ansible_version: "7.1"
+  platforms:
+  - name: EL
+    versions:
+    - "8"
+    - "9"
+  - name: Ubuntu
+    versions:
+    - focal
+    - jammy
+dependencies: []

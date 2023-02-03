@@ -1,0 +1,11 @@
+---
+- name: Reboot
+  include_tasks: reboot.yml
+  when:
+    - reboot_required | default(false) | bool
+
+- name: Restart systemd-networkd
+  service:
+    name: systemd-networkd
+    state: restarted
+  when: systemd_networkd_apply_config | bool

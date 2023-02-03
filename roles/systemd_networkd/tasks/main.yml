@@ -1,0 +1,77 @@
+---
+- name: Include OS specific variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
+      paths:
+        - "{{ role_path }}/vars"
+
+- name: Install systemd-networkd packages
+  package:
+   name: "{{ systemd_networkd_packages }}"
+
+#- import_tasks: cleanup.yml
+#  when: systemd_networkd_cleanup | bool
+
+#- import_tasks: config.yml
+
+- name: Disable NetworkManager service
+  service:
+    name: NetworkManager
+    state: stopped
+    enabled: false
+  ignore_errors: true
+
+- name: Disable network service
+  service:
+    name: network
+    state: stopped
+    enabled: false
+  ignore_errors: true
+
+- name: Remove netplan symlink
+  ansible.builtin.file:
+    path: /usr/lib/systemd/system-generators/netplan
+    state: absent
+  ignore_errors: true
+
+- name: Disable netplan service
+  ansible.builtin.file:
+    path: /usr/sbin/netplan
+    mode: '0644'
+  ignore_errors: true
+
+- name: Enable and start systemd-networkd service
+  service:
+    name: systemd-networkd
+    enabled: yes
+  when: systemd_networkd_network is defined or systemd_networkd_link is defined or systemd_networkd_netdev is defined
+
+- name: Install systemd-resolved package
+  package:
+    name: systemd-resolved
+  when: ansible_os_family == 'RedHat' and systemd_networkd_enable_resolved | bool
+
+- name: Enable and start systemd-resolved service
+  service:
+    name: systemd-resolved
+    enabled: yes
+    state: started
+  when: systemd_networkd_enable_resolved | bool
+
+- name: Replace /etc/resolv.conf with a symlink to the systemd-resolved {{ systemd_networkd_resolv_conf }}
+  become: true
+  file:
+    path: /etc/resolv.conf
+    src: "/run/systemd/resolve/{{ systemd_networkd_resolv_conf }}"
+    state: link
+    force: yes
+  when: systemd_networkd_symlink_resolv_conf | bool
+
+- name: Flush handlers
+  meta: flush_handlers
