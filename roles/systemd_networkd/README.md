@@ -128,5 +128,5 @@ systemd_networkd_nsswitch_publickey: "files"
 License
 -------
 
-Tool under the BSD license. Do not hesitate to report bugs, ask me some
+Tool under the BSD license. Do not hesitate to report bugs, ask some
 questions or do some pull request if you want to!
