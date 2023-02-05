@@ -1,0 +1,23 @@
+---
+- name: Find powertools repo files
+  ansible.builtin.find:
+    paths: /etc/yum.repos.d/
+    file_type: file
+    contains: '\[powertools\]'
+    recurse: true
+    read_whole_file: true
+    patterns: "*.repo"
+  register: files_matched
+
+- name: Ensure repo is enabled"
+  ini_file:
+    no_extra_spaces: true
+    path: "{{ item.path }}"
+    section: "powertools"
+    option: enabled
+    value: 1
+    mode: 0644
+    backup: true
+  loop: "{{ files_matched.files | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.path }}"

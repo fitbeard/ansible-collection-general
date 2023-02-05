@@ -1,0 +1,12 @@
+---
+- name: Configure custom repositories
+  ansible.builtin.yum_repository:
+    file: custom-repos
+    name: "{{ item.key }}"
+    description: "{{ item.value.description }}"
+    baseurl: "{{ item.value.baseurl }}"
+    gpgkey: "{{ item.value.gpgkey }}"
+    enabled: "{{ item.value.enabled | default('yes') }}"
+    state: "{{ item.value.state }}"
+  loop: "{{ repos_custom | dict2items }}"
+  when: repos_custom is defined

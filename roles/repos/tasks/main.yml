@@ -1,0 +1,26 @@
+---
+- name: Fail when OS is not supported
+  ansible.legacy.fail:
+    msg: This Ansible role doesn't support this OS. Contact Engineering.
+  when:
+    - ansible_os_family != 'RedHat'
+
+- name: Configure EPEL repository
+  ansible.builtin.include_tasks: repo-epel.yml
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version >= '8'
+    - "'epel' in repos_enabled"
+
+- name: Configure Powertools repository
+  ansible.builtin.include_tasks: repo-powertools.yml
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version == '8'
+    - "'powertools' in repos_enabled"
+
+- name: Configure custom repos
+  ansible.builtin.include_tasks: repo-custom.yml
+  when:
+    - "'custom' in repos_enabled"
+    - ansible_distribution_major_version >= '8'
