@@ -1,0 +1,16 @@
+---
+packages_defaults:
+  - curl
+  - git
+  - iotop
+  - lsof
+  - lsscsi
+  - net-tools
+  - nmap
+  - socat
+  - strace
+  - sysstat
+  - tcpdump
+  - tree
+  - unzip
+  - wget

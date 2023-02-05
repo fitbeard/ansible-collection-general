@@ -1,0 +1,38 @@
+---
+- name: Include OS specific vars
+  ansible.builtin.include_vars: "{{ role_path }}/vars/{{ ansible_os_family }}.yml"
+
+- name: Uninstall packages
+  ansible.builtin.package:
+    name: "{{ packages_absent }}"
+    state: absent
+
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ packages_all }}"
+    update_cache: true
+
+- name: Upgrade packages (RedHat)
+  ansible.builtin.yum:
+    name: '*'
+    state: latest
+    update_cache: true
+    enable_plugin: versionlock
+  when:
+    - upgrade_required | default(false) | bool
+    - ansible_os_family == 'RedHat'
+
+- name: Upgrade packages (Debian)
+  ansible.builtin.apt:
+    name: '*'
+    state: latest
+    update_cache: true
+  when:
+    - upgrade_required | default(false) | bool
+    - ansible_os_family == 'Debian'
+
+- name: Reboot
+  ansible.builtin.reboot:
+    reboot_timeout: 1200
+  when:
+    - reboot_required | default(false) | bool
