@@ -1,0 +1,9 @@
+---
+packages_custom: []
+packages_absent: []
+
+packages_all: |
+  {{
+    packages_defaults +
+    packages_custom
+  }}

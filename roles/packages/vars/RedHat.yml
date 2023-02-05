@@ -1,0 +1,18 @@
+---
+packages_defaults:
+  - epel-release
+  - bind-utils
+  - curl
+  - git
+  - iotop
+  - lsof
+  - lsscsi
+  - net-tools
+  - nmap
+  - socat
+  - strace
+  - sysstat
+  - tcpdump
+  - tree
+  - unzip
+  - wget
