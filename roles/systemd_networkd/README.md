@@ -125,8 +125,4 @@ systemd_networkd_nsswitch_aliases: "files"
 systemd_networkd_nsswitch_publickey: "files"
 ```
 
-License
--------
-
-Tool under the BSD license. Do not hesitate to report bugs, ask some
-questions or do some pull request if you want to!
+To reboot, set `reboot_required` variable to `true`.

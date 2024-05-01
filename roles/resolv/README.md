@@ -21,9 +21,3 @@ Dependencies
 ------------
 
 None
-
-License
--------
-
-Tool under the BSD license. Do not hesitate to report bugs, ask some
-questions or do some pull request if you want to!

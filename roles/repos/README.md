@@ -16,7 +16,7 @@ repos_enabled:
 ```
 
 ```yaml
-repos:
+repos_predefined:
   epel:
     gpgkey: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
     rpm: https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm
@@ -48,9 +48,3 @@ Dependencies
 ------------
 
 None
-
-License
--------
-
-Tool under the BSD license. Do not hesitate to report bugs, ask some
-questions or do some pull request if you want to!
