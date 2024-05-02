@@ -15,7 +15,7 @@
 - name: Upgrade packages (RedHat)
   ansible.builtin.yum:
     name: '*'
-    state: latest
+    state: latest # noqa: package-latest
     update_cache: true
     enable_plugin: versionlock
   when:
@@ -25,7 +25,7 @@
 - name: Upgrade packages (Debian)
   ansible.builtin.apt:
     name: '*'
-    state: latest
+    state: latest # noqa: package-latest
     update_cache: true
   when:
     - upgrade_required | default(false) | bool

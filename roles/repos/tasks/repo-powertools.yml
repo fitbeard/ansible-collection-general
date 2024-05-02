@@ -9,14 +9,14 @@
     patterns: "*.repo"
   register: files_matched
 
-- name: Ensure repo is enabled"
-  ini_file:
+- name: Ensure repo is enabled
+  community.general.ini_file:
     no_extra_spaces: true
     path: "{{ item.path }}"
     section: "powertools"
     option: enabled
     value: 1
-    mode: 0644
+    mode: "0644"
     backup: true
   loop: "{{ files_matched.files | flatten(levels=1) }}"
   loop_control:

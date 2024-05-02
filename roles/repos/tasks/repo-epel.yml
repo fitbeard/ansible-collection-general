@@ -2,12 +2,12 @@
 - name: Install EPEL repository key
   ansible.builtin.rpm_key:
     key: "{{ item.value.gpgkey }}"
-  loop: "{{ query('dict', repos) }}"
+  loop: "{{ query('dict', repos_predefined) }}"
   when: "'epel' in item.key"
 
 - name: Install EPEL repository rpm
   ansible.builtin.yum:
     name: "{{ item.value.rpm }}"
     state: present
-  loop: "{{ query('dict', repos) }}"
+  loop: "{{ query('dict', repos_predefined) }}"
   when: "'epel' in item.key"

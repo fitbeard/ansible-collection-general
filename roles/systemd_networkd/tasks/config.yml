@@ -1,8 +1,6 @@
 ---
 - name: Create systemd-networkd configuration files
   vars:
-    # Profiles to iterate over. Using a single looped task is more performant
-    # than multiple tasks.
     all_files:
       - type: link
         files: "{{ systemd_networkd_link | dict2items }}"
@@ -15,12 +13,10 @@
     dest: "/etc/systemd/network/{{ item.1.key }}.{{ item.0.type }}"
     owner: root
     group: systemd-network
-    mode: 0640
+    mode: "0640"
   loop: "{{ query('subelements', all_files, 'files') }}"
   loop_control:
-    label:
-      type: "{{ item.0.type }}"
-      name: "{{ item.1.key }}"
+    label: "type: {{ item.0.type }}, name: {{ item.1.key }}"
   notify:
     - Reboot
     - Restart systemd-networkd
@@ -32,5 +28,5 @@
     dest: "/etc/nsswitch.conf"
     owner: root
     group: root
-    mode: '0644'
+    mode: "0644"
   when: systemd_networkd_manage_nsswitch_config | bool
