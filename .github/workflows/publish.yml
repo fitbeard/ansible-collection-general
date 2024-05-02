@@ -4,6 +4,7 @@ on:
   release:
     types:
       - published
+  workflow_dispatch:
 
 jobs:
   ansible-collection:
@@ -12,13 +13,7 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Generate galaxy version
-        id: galaxy_version
-        run: |
-          echo version=$(echo ${{ github.event.release.tag_name }} | sed 's/^v//') >> $GITHUB_OUTPUT
-
       - name: Build and publish collection
         uses: artis3n/ansible_galaxy_collection@v2
         with:
           api_key: "${{ secrets.ANSIBLE_GALAXY_API_KEY }}"
-          galaxy_version: "${{ steps.galaxy_version.outputs.version }}"

@@ -1,6 +1,6 @@
 namespace: fitbeard
 name: general
-version: 1.0.0 # injected dynamically when publishing
+version: 1.0.0
 readme: README.md
 authors:
   - Tadas Sutkaitis <tadasas@gmail.com>
