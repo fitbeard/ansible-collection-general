@@ -10,7 +10,8 @@ license:
 dependencies:
   ansible.posix: ">=1.3.0"
   community.crypto: ">=2.2.3"
-  community.general: ">=4.5.0"
+  community.general: ">=7.3.0"
+  community.libvirt: ">=1.3.0"
 repository: https://github.com/fitbeard/ansible-collection-general
 homepage: https://github.com/fitbeard/ansible-collection-general
 issues: https://github.com/fitbeard/ansible-collection-general

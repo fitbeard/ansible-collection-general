@@ -46,7 +46,7 @@
 - name: Disable netplan service
   ansible.builtin.file:
     path: /usr/sbin/netplan
-    mode: '0644'
+    mode: "0o644"
   failed_when: disable_np_service.failed | bool and 'is absent' not in disable_np_service.msg
   register: disable_np_service
 

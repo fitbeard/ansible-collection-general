@@ -1,0 +1,16 @@
+galaxy_info:
+  role_name: tuned
+  author: Tadas Sutkaitis <tadasas@gmail.com>
+  description: Install a dynamic adaptive system tuning daemon
+  license: BSD
+  min_ansible_version: 5.5.0
+  standalone: false
+  platforms:
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy

@@ -1,0 +1,6 @@
+---
+- name: Reload tuned
+  ansible.builtin.systemd:
+    name: tuned
+    state: restarted
+    daemon_reload: true

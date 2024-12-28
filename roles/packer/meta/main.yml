@@ -1,0 +1,29 @@
+galaxy_info:
+  role_name: packer
+  author: Tadas Sutkaitis <tadasas@gmail.com>
+  description: Install Hashicorp Packer
+  license: BSD
+  min_ansible_version: 5.5.0
+  standalone: false
+  platforms:
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+
+dependencies:
+  - role: download_artifact
+    vars:
+      download_artifact_url: "{{ packer_download_url }}"
+      download_artifact_dest: "{{ packer_download_dest }}"
+      download_artifact_checksum: "sha256:{{ packer_archive_checksum }}"
+      download_artifact_owner: root
+      download_artifact_mode: "0o755"
+      download_artifact_unarchive: true
+      download_artifact_unarchive_dest: /usr/local/bin
+      download_artifact_unarchive_include:
+        - packer

@@ -1,0 +1,32 @@
+---
+- name: Ensure libvirt dir storage pool directories exist
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0o750') }}"
+    state: directory
+  when: item.type == "dir"
+  loop: "{{ libvirt_host_pools | flatten(levels=1) }}"
+
+- name: Ensure libvirt storage pools are defined
+  community.libvirt.virt_pool:
+    name: "{{ item.name }}"
+    command: define
+    xml: "{{ item.xml | default(lookup('template', 'pool.xml.j2')) }}"
+    uri: "{{ libvirt_host_uri | default(omit, true) }}"
+  loop: "{{ libvirt_host_pools | flatten(levels=1) }}"
+
+- name: Ensure libvirt storage pools are active
+  community.libvirt.virt_pool:
+    name: "{{ item.name }}"
+    state: active
+    uri: "{{ libvirt_host_uri | default(omit, true) }}"
+  loop: "{{ libvirt_host_pools | flatten(levels=1) }}"
+
+- name: Ensure libvirt storage pools are started on boot
+  community.libvirt.virt_pool:
+    name: "{{ item.name }}"
+    autostart: true
+    uri: "{{ libvirt_host_uri | default(omit, true) }}"
+  loop: "{{ libvirt_host_pools | flatten(levels=1) }}"

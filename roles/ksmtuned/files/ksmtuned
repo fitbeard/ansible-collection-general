@@ -1,0 +1,13 @@
+# Ansible managed
+
+/var/log/ksmtuned {
+    missingok
+    notifempty
+    sharedscripts
+    rotate 7
+    daily
+    compress
+    postrotate
+        /bin/systemctl restart ksmtuned.service > /dev/null 2>/dev/null || true
+    endscript
+}

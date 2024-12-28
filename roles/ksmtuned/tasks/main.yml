@@ -1,0 +1,32 @@
+---
+- name: Install ksmtuned package
+  ansible.builtin.package:
+    name: ksmtuned
+
+- name: Create ksmtuned.conf
+  ansible.builtin.copy:
+    src: ksmtuned.conf
+    dest: /etc/ksmtuned.conf
+    mode: "0o644"
+  notify:
+    - Reload ksmtuned
+
+- name: Create logrotate for ksmtuned
+  ansible.builtin.copy:
+    src: ksmtuned
+    dest: /etc/logrotate.d/ksmtuned
+    mode: "0o644"
+  notify:
+    - Reload ksmtuned
+
+- name: Enable ksm service
+  ansible.builtin.systemd:
+    name: ksm
+    state: started
+    enabled: true
+
+- name: Enable ksmtuned service
+  ansible.builtin.systemd:
+    name: ksmtuned
+    state: started
+    enabled: true

@@ -1,0 +1,44 @@
+---
+- name: Get a list of all libvirt networks
+  community.libvirt.virt_net:
+    command: list_nets
+  register: libvirt_host_networks_all
+
+- name: Build a list of managed libvirt networks
+  ansible.builtin.set_fact:
+    libvirt_host_networks_managed: "{{ libvirt_host_networks_managed | default([]) + [item.name] }}"
+  with_items: "{{ libvirt_host_networks }}"
+
+- name: Destroy unmanaged libvirt networks
+  community.libvirt.virt_net:
+    name: "{{ item }}"
+    command: destroy
+  with_items: "{{ libvirt_host_networks_all.list_nets | difference(libvirt_host_networks_managed) }}"
+
+- name: Undefine unmanaged libvirt networks
+  community.libvirt.virt_net:
+    name: "{{ item }}"
+    command: undefine
+  with_items: "{{ libvirt_host_networks_all.list_nets | difference(libvirt_host_networks_managed) }}"
+
+- name: Ensure libvirt networks are defined
+  community.libvirt.virt_net:
+    name: "{{ item.name }}"
+    command: define
+    xml: "{{ item.xml | default(lookup('template', 'network.xml.j2')) }}"
+    uri: "{{ libvirt_host_uri | default(omit, true) }}"
+  with_items: "{{ libvirt_host_networks }}"
+
+- name: Ensure libvirt networks are started on boot
+  community.libvirt.virt_net:
+    name: "{{ item.name }}"
+    autostart: true
+    uri: "{{ libvirt_host_uri | default(omit, true) }}"
+  with_items: "{{ libvirt_host_networks }}"
+
+- name: Ensure libvirt networks are active
+  community.libvirt.virt_net:
+    name: "{{ item.name }}"
+    state: active
+    uri: "{{ libvirt_host_uri | default(omit, true) }}"
+  with_items: "{{ libvirt_host_networks }}"

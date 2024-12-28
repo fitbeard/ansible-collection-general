@@ -28,5 +28,5 @@
     dest: "/etc/nsswitch.conf"
     owner: root
     group: root
-    mode: "0644"
+    mode: "0o644"
   when: systemd_networkd_manage_nsswitch_config | bool
