@@ -1,0 +1,18 @@
+---
+libvirt_host_libvirt_packages:
+  - libgcrypt
+  - libgcrypt-devel
+  - libvirt
+  - libvirt-daemon-kvm
+  - python3-libvirt
+  - python3-lxml
+  - qemu-kvm
+  - edk2-ovmf
+  - virt-install
+  - libguestfs-tools
+
+libvirt_host_networks: []
+libvirt_host_pools: []
+
+libvirt_host_networks_managed: []
+libvirt_host_require_vt: true

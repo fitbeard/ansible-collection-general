@@ -1,0 +1,11 @@
+galaxy_info:
+  role_name: libvirt_host
+  author: Tadas Sutkaitis <tadasas@gmail.com>
+  description: Install and configure Libvirt host
+  license: BSD
+  min_ansible_version: 5.5.0
+  standalone: false
+  platforms:
+    - name: EL
+      versions:
+        - "9"

@@ -1,0 +1,11 @@
+---
+# Wait for some time before start tuned. For special cases.
+# tuned_custom_timeout: 30
+
+tuned_reapply_sysctl: true
+
+tuned_active_profile: virtual-guest
+
+tuned_custom_profiles: []
+
+tuned_custom_profiles_source_path: ""

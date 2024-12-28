@@ -1,6 +1,6 @@
 ---
 - name: Fail when OS is not supported
-  ansible.legacy.fail:
+  ansible.builtin.fail:
     msg: This Ansible role doesn't support this OS. Contact Engineering.
   when:
     - ansible_os_family != 'RedHat'

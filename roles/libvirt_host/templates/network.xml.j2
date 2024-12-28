@@ -1,0 +1,27 @@
+<network connections='1'>
+  <name>{{ item.name }}</name>
+{% if item.mode == 'bridge' or item.mode == 'route' or item.mode == 'nat' %}
+  <forward mode='{{ item.mode }}'/>
+  <bridge name='{{ item.bridge }}'/>
+{% endif %}
+{% if item.mode == 'route' or item.mode == 'nat' %}
+  <domain name='{{ item.domain|default(item.name) }}'/>
+  <ip address='{{ item.ip }}' netmask='{{ item.netmask }}'>
+{% if item.dhcp_start is defined and item.dhcp_end is defined %}
+    <dhcp>
+      <range start='{{ item.dhcp_start }}' end='{{ item.dhcp_end }}'/>
+    </dhcp>
+{% endif %}
+  </ip>
+{% endif %}
+{% if item.mode == 'hostdev' or item.mode == 'passthrough' %}
+  <forward mode='{{ item.mode }}' managed='yes'>
+{% if item.mode == 'hostdev' %}
+    <pf dev='{{ item.device }}'/>
+{% endif %}
+{% if item.mode == 'passthrough' %}
+    <interface dev='{{ item.device }}'/>
+{% endif %}
+  </forward>
+{% endif %}
+</network>

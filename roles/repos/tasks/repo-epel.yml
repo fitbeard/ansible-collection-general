@@ -6,7 +6,7 @@
   when: "'epel' in item.key"
 
 - name: Install EPEL repository rpm
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ item.value.rpm }}"
     state: present
   loop: "{{ query('dict', repos_predefined) }}"

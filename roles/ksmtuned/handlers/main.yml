@@ -1,0 +1,6 @@
+---
+- name: Reload ksmtuned
+  ansible.builtin.systemd:
+    name: ksmtuned
+    state: restarted
+    daemon_reload: true

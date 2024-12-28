@@ -1,0 +1,49 @@
+---
+- name: Validate
+  ansible.builtin.include_tasks: validate.yml
+
+- name: Ensure libvirt packages are installed
+  ansible.builtin.dnf:
+    name: "{{ libvirt_host_libvirt_packages }}"
+    state: present
+
+- name: Ensure libvirtd daemon is started and enabled
+  ansible.builtin.service:
+    name: libvirtd
+    state: started
+    enabled: true
+
+- name: Ensure libvirt-guests daemon is started and enabled
+  ansible.builtin.service:
+    name: libvirt-guests
+    state: started
+    enabled: true
+
+- name: Create libvirt-guests config
+  ansible.builtin.copy:
+    src: libvirt-guests
+    dest: /etc/sysconfig/libvirt-guests
+    mode: "0o644"
+  notify:
+    - Restart libvirt-guests
+
+- name: Create qemu-kvm bridge.conf
+  ansible.builtin.copy:
+    src: bridge.conf
+    dest: /etc/qemu-kvm/bridge.conf
+    mode: "0o644"
+
+- name: Create handy scripts
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/usr/bin/{{ item }}"
+    mode: "0o755"
+  with_items:
+    - virt-new-vm.sh
+    - virt-prepare-image.sh
+
+- name: Networks
+  ansible.builtin.include_tasks: networks.yml
+
+- name: Pools
+  ansible.builtin.include_tasks: pools.yml
